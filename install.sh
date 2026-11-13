@@ -8,7 +8,8 @@
 #   2. demande où est ta musique (une seule question, avec une proposition) ;
 #   3. écrit compose.yml et .env dans un dossier « syrinx » (Navidrome + le serveur Syrinx) ;
 #   4. lance les deux conteneurs, puis affiche l'adresse où finir l'installation (assistant dans le navigateur).
-# Il ne touche pas à ta musique (montée en lecture seule) et n'ouvre rien sur Internet.
+# Il ne touche pas à ta musique (lecture seule, sauf le sous-dossier Imports où vont les fichiers que tu ajoutes
+# depuis Syrinx) et n'ouvre rien sur Internet.
 #
 # Options (toutes facultatives) :
 #   --music <dossier>   dossier de la musique (sinon : question, avec une proposition)
@@ -124,8 +125,8 @@ say "  Port    : $PORT" "  Port:    $PORT"
 ok=$(ask "$(say 'On installe ? (o/n)' 'Install? (y/n)')" "$(say o y)")
 case "$ok" in [oOyY]*) ;; *) say "Rien n'a été changé." "Nothing was changed."; exit 0 ;; esac
 
-mkdir -p "$DIR/data/syrinx" "$DIR/data/navidrome"
-if [ "$(id -u)" = 0 ]; then chown -R "$PUID:$PGID" "$DIR/data"; fi
+mkdir -p "$DIR/data/syrinx" "$DIR/data/navidrome" "$MUSIC/Imports"
+if [ "$(id -u)" = 0 ]; then chown -R "$PUID:$PGID" "$DIR/data" "$MUSIC/Imports"; fi
 
 # ---------------------------------------------------------------- 4. Fichiers
 cat > "$DIR/.env" <<EOF
@@ -185,7 +186,7 @@ services:
       NAVIDROME_DB: /navidrome/navidrome.db
       MUSIC_LABEL: "${MUSIC_PATH}"
     # Données rendues à PUID au démarrage, puis le serveur tourne avec ce compte (jamais root)
-    command: ["sh", "-c", "chown $${PUID}:$${PGID} /data; exec setpriv --reuid=$${PUID} --regid=$${PGID} --clear-groups python web.py"]
+    command: ["sh", "-c", "chown $${PUID}:$${PGID} /data /music/Imports; exec setpriv --reuid=$${PUID} --regid=$${PGID} --clear-groups python web.py"]
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8090/healthz', timeout=10)"]
       interval: 1m
@@ -194,6 +195,8 @@ services:
       start_period: 2m
     volumes:
       - "${MUSIC_PATH}:/music:ro"
+      # « Ajouter des fichiers » (achats, CD numérisés) : le seul dossier où Syrinx peut écrire
+      - "${MUSIC_PATH}/Imports:/music/Imports"
       - "${DATA_PATH}/syrinx:/data"
       - "${DATA_PATH}/navidrome:/navidrome"
     logging: *logging
