@@ -1,4 +1,4 @@
-# Syrinx — install
+# Syrinx - install
 
 Your own music streaming service, for the music you already own (ripped CDs, vinyl, years of MP3s).
 Your files stay on a small server at home; Syrinx gives you the app on your phone, in your car
