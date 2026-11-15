@@ -19,6 +19,13 @@ internet.
 
 Update: `cd syrinx && docker compose pull && docker compose up -d`
 
+If Docker needs admin rights (`sudo`), download the script first so it can read your answers:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/KRESTIE/syrinx-install/main/install.sh -o install.sh
+sudo sh install.sh
+```
+
 Options: `--music <folder>`, `--dir <folder>`, `--port <n>`, `--yes` (no questions).
 
 ---
@@ -36,3 +43,11 @@ curl -fsSL https://raw.githubusercontent.com/KRESTIE/syrinx-install/main/install
 ```
 
 Une seule question (où est ta musique), puis l'adresse où finir l'installation dans ton navigateur.
+
+Si Docker demande les droits administrateur (`sudo`), télécharge d'abord le script pour qu'il puisse lire
+tes réponses :
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/KRESTIE/syrinx-install/main/install.sh -o install.sh
+sudo sh install.sh
+```

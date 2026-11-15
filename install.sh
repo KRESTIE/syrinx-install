@@ -48,6 +48,21 @@ while [ $# -gt 0 ]; do
   esac
 done
 
+# « curl … | sudo sh » : sudo (use_pty, défaut d'Ubuntu) ne transmet pas le clavier quand le script arrive par un
+# tuyau ; les questions attendraient sans fin. On explique la bonne commande au lieu de rester bloqué.
+if [ "$YES" = 0 ] && [ -n "${SUDO_USER:-}" ] && [ ! -t 0 ]; then
+  say "" ""
+  say "Avec sudo, télécharge d'abord le script, puis lance-le (sinon il ne peut pas lire tes réponses) :" \
+      "With sudo, download the script first, then run it (otherwise it can't read your answers):"
+  say "" ""
+  say "  curl -fsSL https://raw.githubusercontent.com/KRESTIE/syrinx-install/main/install.sh -o install.sh" \
+      "  curl -fsSL https://raw.githubusercontent.com/KRESTIE/syrinx-install/main/install.sh -o install.sh"
+  say "  sudo sh install.sh" "  sudo sh install.sh"
+  say "" ""
+  say "(Ou sans aucune question : … | sudo sh -s -- --yes)" "(Or with no questions at all: … | sudo sh -s -- --yes)"
+  exit 1
+fi
+
 # Question avec une proposition ; lue sur le terminal (le script lui-même arrive par « curl | sh »)
 ask() {
   if [ "$YES" = 1 ] || [ ! -r /dev/tty ]; then printf '%s' "$2"; return; fi
