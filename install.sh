@@ -76,13 +76,21 @@ fi
 # ---------------------------------------------------------------- 2. Musique
 if [ -z "$MUSIC" ]; then
   guess=""
+  H="${HOME:-/root}"
+  if [ -n "${SUDO_USER:-}" ]; then H=$(getent passwd "$SUDO_USER" | cut -d: -f6); [ -n "$H" ] || H="${HOME:-/root}"; fi
   for d in /volume1/Musique /volume1/Music /volume1/music /share/Music /mnt/music /srv/music \
-           "${HOME:-/root}/Musique" "${HOME:-/root}/Music"; do
+           "$H/Musique" "$H/Music"; do
     if [ -d "$d" ]; then guess="$d"; break; fi
   done
-  [ -n "$guess" ] || guess="${HOME:-/root}/Music"
+  [ -n "$guess" ] || guess="$H/Music"
   MUSIC=$(ask "$(say 'Dossier de ta musique ?' 'Where is your music?')" "$guess")
 fi
+# « ~/Music » tapé à la question : le shell ne l'a pas remplacé (et avec sudo, HOME est celui de root)
+USER_HOME="$HOME"
+if [ -n "${SUDO_USER:-}" ]; then USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6); fi
+[ -n "$USER_HOME" ] || USER_HOME="${HOME:-/root}"
+# shellcheck disable=SC2088  # on cherche justement le « ~ » tapé tel quel
+case "$MUSIC" in "~") MUSIC="$USER_HOME" ;; "~/"*) MUSIC="$USER_HOME/${MUSIC#\~/}" ;; esac
 case "$MUSIC" in /*) ;; *) MUSIC="$(pwd)/$MUSIC" ;; esac
 MUSIC="${MUSIC%/}"
 if [ ! -d "$MUSIC" ]; then
