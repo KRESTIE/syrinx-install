@@ -64,7 +64,7 @@ function DockerOk { return ((Quiet { docker info }) -eq 0) }
 
 try {
 Write-Host ""
-Say "Syrinx — installation" "Syrinx — installation"
+Say "Installation de Syrinx" "Syrinx installation"
 Write-Host "======================"
 
 # ---------------------------------------------------------------- 1. Docker Desktop

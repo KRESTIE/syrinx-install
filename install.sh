@@ -72,7 +72,7 @@ ask() {
 }
 
 say "" ""
-say "Syrinx — installation" "Syrinx — installation"
+say "Installation de Syrinx" "Syrinx installation"
 say "======================" "======================"
 
 # ---------------------------------------------------------------- 1. Docker
