@@ -19,6 +19,22 @@ internet.
 
 Update: `cd syrinx && docker compose pull && docker compose up -d`
 
+### Windows 10 and 11
+
+In PowerShell (Start menu › PowerShell), no admin rights needed:
+
+```powershell
+irm https://raw.githubusercontent.com/KRESTIE/syrinx-install/main/install.ps1 | iex
+```
+
+The script installs Docker Desktop if it's missing (then restart the PC, open Docker Desktop once and run the
+command again), lets you pick your music folder in a window, writes `compose.yml` and `.env` into
+`%USERPROFILE%\Syrinx`, allows your private network in the firewall (one Windows confirmation), starts Syrinx,
+adds a "Syrinx" shortcut to the desktop and opens the setup in your browser. Syrinx runs while Docker Desktop is
+open (it starts with Windows by default).
+
+Update: `cd ~\Syrinx ; docker compose pull ; docker compose up -d`
+
 If Docker needs admin rights (`sudo`), download the script first so it can read your answers:
 
 ```sh
