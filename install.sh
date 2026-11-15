@@ -115,7 +115,8 @@ fi
 
 # ---------------------------------------------------------------- 3. Dossier de Syrinx, port, utilisateur
 if [ -z "$DIR" ]; then
-  if [ -d /volume1/docker ]; then DIR=/volume1/docker/syrinx; else DIR="${HOME:-/root}/syrinx"; fi
+  # Avec sudo, HOME est celui de root : on range Syrinx chez l'utilisateur qui a lancé la commande
+  if [ -d /volume1/docker ]; then DIR=/volume1/docker/syrinx; else DIR="$USER_HOME/syrinx"; fi
 fi
 case "$DIR" in /*) ;; *) DIR="$(pwd)/$DIR" ;; esac
 DIR="${DIR%/}"
