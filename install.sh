@@ -1,5 +1,7 @@
 #!/bin/sh
 # Syrinx — installation en une commande (NAS, Raspberry Pi, PC sous Linux), avec Docker.
+# © 2026 Syrinx. Tous droits réservés : libre à lire et à lancer, pas à redistribuer ni à revendre.
+# Faille de sécurité : security@syrinx.li
 #
 #   curl -fsSL <adresse de ce fichier> | sh
 #

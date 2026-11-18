@@ -1,4 +1,6 @@
 # Syrinx — installation en une commande sur un PC Windows 10 ou 11, avec Docker Desktop.
+# © 2026 Syrinx. Tous droits réservés : libre à lire et à lancer, pas à redistribuer ni à revendre.
+# Faille de sécurité : security@syrinx.li
 #
 #   irm <adresse de ce fichier> | iex
 #

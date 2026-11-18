@@ -67,3 +67,9 @@ tes réponses :
 curl -fsSL https://raw.githubusercontent.com/KRESTIE/syrinx-install/main/install.sh -o install.sh
 sudo sh install.sh
 ```
+
+## License and security
+
+© 2026 Syrinx. All rights reserved: you may read and run these scripts, not redistribute or resell them.
+Found a security issue? Write to security@syrinx.li (see also https://syrinx.li/.well-known/security.txt).
+Other questions: support@syrinx.li
